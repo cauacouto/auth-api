@@ -15,7 +15,7 @@ import java.util.List;
 @Entity(name = "users")
 @Table(name="users")
 @Getter
-@NoArgsConstructor
+
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class User implements UserDetails {
@@ -25,12 +25,13 @@ public class User implements UserDetails {
     private String id;
     private String login;
     private String password;
+    @Enumerated(EnumType.STRING)
     private UserRole role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-      if (this.role == UserRole.ADMIN) return List.of(new SimpleGrantedAuthority("ROLE_ADMIN)"), new SimpleGrantedAuthority("ROLE_USER"));
-      else return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        if (this.role == UserRole.ADMIN) return List.of(new SimpleGrantedAuthority("ROLE_ADMIN)"), new SimpleGrantedAuthority("ROLE_USER"));
+        else return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
     public User (String login, String password, UserRole role) {
@@ -38,16 +39,21 @@ public class User implements UserDetails {
         this.password = password;
         this.role = role;
     }
+    public User() {
+
+    }
 
     @Override
     public String getUsername() {
         return login;
     }
+
+
+
     @Override
-    public String getPassword() {
+public String getPassword() {
         return password;
     }
-
 
 
     @Override
