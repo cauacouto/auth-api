@@ -1,41 +1,35 @@
 package com.example.api_products.controller;
 
 import com.example.api_products.dto.ProductRequestDto;
-import com.example.api_products.dto.ProductResponseDto;
+import com.example.api_products.dto.ProductResponseDTO;
 import com.example.api_products.model.product;
 import com.example.api_products.repository.ProductRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
-@RequestMapping("/product")
+@RestController()
+@RequestMapping("product")
 public class ProductController {
     @Autowired
     private ProductRepository repository;
 
     @PostMapping
     public ResponseEntity PostProduct(@RequestBody @Valid ProductRequestDto body) {
-        product product = new product(body);
-        this.repository.save(product);
+        product newproduct = new product(body);
+        this.repository.save(newproduct);
         return ResponseEntity.ok().build();
 
     }
 
     @GetMapping
-    public ResponseEntity GetAllProducts() {
-List<ProductResponseDto> products = this.repository.findAll().stream()
-                .map(ProductResponseDto::new)
-                .toList();
-        return ResponseEntity.ok(products);
+    public ResponseEntity getAllProducts(){
+        List<ProductResponseDTO> productList = this.repository.findAll().stream().map(ProductResponseDTO::new).toList();
 
+        return ResponseEntity.ok(productList);
     }
 
 }

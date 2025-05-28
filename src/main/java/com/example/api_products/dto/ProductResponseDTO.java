@@ -2,12 +2,12 @@ package com.example.api_products.dto;
 
 import com.example.api_products.model.product;
 
-public record ProductResponseDto(
+public record ProductResponseDTO(
         String id,
         String name,
         Integer price
 ) {
-    public ProductResponseDto(product product) {
+    public ProductResponseDTO(product product) {
         this(product.getId(), product.getName(), product.getPrice());
     }
 }
